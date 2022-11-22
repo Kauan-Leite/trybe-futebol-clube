@@ -8,6 +8,8 @@ class App {
 
     this.config();
 
+    // Starting Project
+    
     // Não remover essa rota
     this.app.get('/', (req, res) => res.json({ ok: true }));
   }
