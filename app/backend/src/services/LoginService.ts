@@ -1,4 +1,4 @@
-import { sign } from 'jsonwebtoken';
+import { sign, decode, JwtPayload } from 'jsonwebtoken';
 import { config } from 'dotenv';
 import { compareSync } from 'bcryptjs';
 
@@ -18,5 +18,11 @@ export default class LoginService {
     }
 
     return false;
+  }
+
+  static async valid(authorization: string): Promise<string | null | JwtPayload> {
+    const teste = decode(authorization);
+
+    return teste;
   }
 }
