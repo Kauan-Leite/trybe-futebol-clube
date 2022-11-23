@@ -4,11 +4,11 @@ import db from '.';
 
 class UserModel extends Model {
   // declare <campo>: <tipo>;
-  id?: number;
-  username?: string;
-  role?: string;
-  email?: string;
-  password?: string;
+  id!: number;
+  username!: string;
+  role!: string;
+  email!: string;
+  password!: string;
 }
 
 UserModel.init({
