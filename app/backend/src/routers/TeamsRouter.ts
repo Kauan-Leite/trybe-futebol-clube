@@ -5,4 +5,6 @@ const router = Router();
 
 router.get('/teams', TeamsController.getAll);
 
+router.get('/teams/:id', TeamsController.findById);
+
 export default router;

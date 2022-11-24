@@ -7,4 +7,16 @@ export default class TeamsController {
 
     res.status(200).json(teams);
   }
+
+  static async findById(req: Request, res: Response) {
+    const { id } = req.params;
+
+    const team = await TeamsService.getById(Number(id));
+
+    if (team !== false) {
+      return res.status(200).json(team);
+    }
+
+    res.status(404).json({ message: 'team not found' });
+  }
 }

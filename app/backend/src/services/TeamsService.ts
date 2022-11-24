@@ -6,4 +6,14 @@ export default class TeamsService {
 
     return teams;
   }
+
+  static async getById(id: number): Promise<object | boolean> {
+    const team = await TeamModel.findByPk(id);
+
+    if (team === null) {
+      return false;
+    }
+
+    return team;
+  }
 }
