@@ -21,8 +21,8 @@ export default class LoginService {
   }
 
   static async valid(authorization: string): Promise<string | null | JwtPayload> {
-    const teste = decode(authorization);
+    const validToken = decode(authorization);
 
-    return teste;
+    return validToken;
   }
 }
