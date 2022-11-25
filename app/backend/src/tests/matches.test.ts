@@ -107,4 +107,19 @@ describe('Matches', () => {
     expect(response.status).to.be.equal(200);
     expect(response.body.message).to.be.equal('Finished');
   });
+
+  it('Create Match | Equal Team', async() => {
+    const response = await chai
+    .request(app)
+    .post('/matches')
+    .set({'authorization': validToken})
+    .send({
+      homeTeam: 12,
+      awayTeam: 12,
+      homeTeamGoals: 0,
+      awayTeamGoals: 0
+    });
+
+    expect(response.status).to.be.equal(422);
+  });
 });
