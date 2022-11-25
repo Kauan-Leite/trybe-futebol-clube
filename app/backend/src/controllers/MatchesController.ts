@@ -26,12 +26,12 @@ export default class MatchesController {
     const { authorization } = req.headers;
 
     if (typeof authorization !== 'string') {
-      return res.status(401).json({ message: 'Token invalid' });
+      return res.status(401).json({ message: 'Token must be a valid token' });
     }
 
     const result = await MatchesService.valid(authorization);
 
-    if (result === null) return res.status(401).json({ message: 'Token invalid' });
+    if (result === null) return res.status(401).json({ message: 'Token must be a valid token' });
 
     const { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals } = req.body;
 
