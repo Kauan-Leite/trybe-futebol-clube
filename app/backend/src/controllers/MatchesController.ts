@@ -31,9 +31,7 @@ export default class MatchesController {
 
     const result = await MatchesService.valid(authorization);
 
-    if (result === null) {
-      return res.status(401).json({ message: 'Token invalid' });
-    }
+    if (result === null) return res.status(401).json({ message: 'Token invalid' });
 
     const { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals } = req.body;
 
@@ -45,9 +43,11 @@ export default class MatchesController {
 
     const matchData = { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals };
 
-    const newMatch = await MatchesService.createMatch(matchData);
+    try {
+      const newMatch = await MatchesService.createMatch(matchData);
 
-    res.status(201).json(newMatch);
+      res.status(201).json(newMatch);
+    } catch (e) { res.status(404).json({ message: 'There is no team with such id!' }); }
   }
 
   static async finish(req: Request, res: Response) {
