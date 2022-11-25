@@ -50,9 +50,16 @@ export default class MatchesService {
     return validToken;
   }
 
-  static async update(id: number): Promise<void> {
+  static async updateProgress(id: number): Promise<void> {
     await MatchModel.update(
       { inProgress: false },
+      { where: { id } },
+    );
+  }
+
+  static async updateGoal(id: number, homeTeamGoals: number, awayTeamGoals: number): Promise<void> {
+    await MatchModel.update(
+      { homeTeamGoals, awayTeamGoals },
       { where: { id } },
     );
   }

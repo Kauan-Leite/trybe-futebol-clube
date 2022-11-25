@@ -137,4 +137,29 @@ describe('Matches', () => {
 
     expect(response.status).to.be.equal(404);
   });
+
+  it('Update Goals', async() => {
+    const newMatch = await chai
+    .request(app)
+    .post('/matches')
+    .set({'authorization': validToken})
+    .send({
+      homeTeam: 12,
+      awayTeam: 4,
+      homeTeamGoals: 4,
+      awayTeamGoals: 0
+    });
+
+    const response = await chai
+    .request(app)
+    .patch(`/matches/${newMatch.body.id}`)
+    .set({'authorization': validToken})
+    .send({
+      homeTeamGoals: 4,
+      awayTeamGoals: 0
+    });
+
+    expect(response.status).to.be.equal(200);
+    expect(response.body.message).to.be.equal(`Match ${newMatch.body.id} atualizada`);
+  })
 });
