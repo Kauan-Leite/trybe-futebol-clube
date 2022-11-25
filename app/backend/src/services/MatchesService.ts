@@ -49,4 +49,11 @@ export default class MatchesService {
 
     return validToken;
   }
+
+  static async update(id: number): Promise<void> {
+    await MatchModel.update(
+      { inProgress: false },
+      { where: { id } },
+    );
+  }
 }

@@ -14,6 +14,8 @@ const { app } = new App();
 const { expect } = chai;
 
 describe('Matches', () => {
+  const validToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjY5MjQ2ODIyfQ.RsWymztrAcokKgLiEf5-pjvhT172FmTL3RZ4fHRi42I';
+
   it('All Matches', async () => {
     const response = await chai.request(app).get('/matches');
 
@@ -45,8 +47,6 @@ describe('Matches', () => {
   });
 
   it('Create Match | Valid Token', async() => {
-    const validToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjY5MjQ2ODIyfQ.RsWymztrAcokKgLiEf5-pjvhT172FmTL3RZ4fHRi42I';
-
     const response = await chai
     .request(app)
     .post('/matches')
@@ -88,5 +88,23 @@ describe('Matches', () => {
     });
 
     expect(response.status).to.be.equal(401);
+  });
+
+  it('Update Match', async() => {
+    const newMatch = await chai
+    .request(app)
+    .post('/matches')
+    .set({'authorization': validToken})
+    .send({
+      homeTeam: 12,
+      awayTeam: 4,
+      homeTeamGoals: 4,
+      awayTeamGoals: 0
+    });
+
+    const response = await chai.request(app).patch(`/matches/${newMatch.body.id}/finish`);
+
+    expect(response.status).to.be.equal(200);
+    expect(response.body.message).to.be.equal('Finished');
   });
 });
