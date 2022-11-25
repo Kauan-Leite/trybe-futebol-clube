@@ -18,15 +18,15 @@ export default class LoginController {
     const { authorization } = req.headers;
 
     if (typeof authorization !== 'string') {
-      res.status(401).json({ message: 'Token invalid' });
-    } else {
-      const result = await LoginService.valid(authorization);
-
-      if (result === null) {
-        res.status(401).json({ message: 'Token invalid' });
-      }
-
-      res.status(200).json(result);
+      return res.status(401).json({ message: 'Token invalid' });
     }
+
+    const result = await LoginService.valid(authorization);
+
+    if (result === null) {
+      return res.status(401).json({ message: 'Token invalid' });
+    }
+
+    res.status(200).json(result);
   }
 }

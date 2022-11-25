@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import MatchesService from '../services/MatchesService';
 
 export default class MatchesController {
-  static async getAll(req: Request, res: Response) {
+  static async getMatches(req: Request, res: Response) {
     const { inProgress } = req.query;
 
     if (inProgress === 'true') {
@@ -20,5 +20,27 @@ export default class MatchesController {
     const matches = await MatchesService.getAll();
 
     res.status(200).json(matches);
+  }
+
+  static async create(req: Request, res: Response) {
+    const { authorization } = req.headers;
+
+    if (typeof authorization !== 'string') {
+      return res.status(401).json({ message: 'Token invalid' });
+    }
+
+    const result = await MatchesService.valid(authorization);
+
+    if (result === null) {
+      return res.status(401).json({ message: 'Token invalid' });
+    }
+
+    const { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals } = req.body;
+
+    const matchData = { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals };
+
+    const newMatch = await MatchesService.createMatch(matchData);
+
+    res.status(201).json(newMatch);
   }
 }

@@ -3,6 +3,8 @@ import MatchesController from '../controllers/MatchesController';
 
 const router = Router();
 
-router.get('/matches', MatchesController.getAll);
+router.get('/matches', MatchesController.getMatches);
+
+router.post('/matches', MatchesController.create);
 
 export default router;

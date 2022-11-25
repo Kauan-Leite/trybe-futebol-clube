@@ -43,4 +43,50 @@ describe('Matches', () => {
     expect(haveInProgress).to.be.equal(false);
     expect(haveFinish).to.be.equal(true);
   });
+
+  it('Create Match | Valid Token', async() => {
+    const validToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjY5MjQ2ODIyfQ.RsWymztrAcokKgLiEf5-pjvhT172FmTL3RZ4fHRi42I';
+
+    const response = await chai
+    .request(app)
+    .post('/matches')
+    .set({'authorization': validToken})
+    .send({
+      homeTeam: 12,
+      awayTeam: 4,
+      homeTeamGoals: 4,
+      awayTeamGoals: 0
+    });
+
+    expect(response.status).to.be.equal(201);
+  });
+
+  it('Create Match | Invalid Token === string', async() => {
+    const response = await chai
+    .request(app)
+    .post('/matches')
+    .set({'authorization': 'invalid_token'})
+    .send({
+      homeTeam: 12,
+      awayTeam: 4,
+      homeTeamGoals: 4,
+      awayTeamGoals: 0
+    });
+
+    expect(response.status).to.be.equal(401);
+  });
+
+  it('Create Match | Invalid Token !== string', async() => {
+    const response = await chai
+    .request(app)
+    .post('/matches')
+    .send({
+      homeTeam: 12,
+      awayTeam: 4,
+      homeTeamGoals: 4,
+      awayTeamGoals: 0
+    });
+
+    expect(response.status).to.be.equal(401);
+  });
 });
