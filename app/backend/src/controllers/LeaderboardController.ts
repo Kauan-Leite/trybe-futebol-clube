@@ -11,6 +11,8 @@ export default class LeaderboardController {
         teamsData.push(LeaderboardService.getHomeData(index));
       } else if (path.includes('away')) {
         teamsData.push(LeaderboardService.getAwayData(index));
+      } else {
+        teamsData.push(LeaderboardService.getAllMatchData(index));
       }
     }
 

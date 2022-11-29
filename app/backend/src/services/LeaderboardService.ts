@@ -108,4 +108,27 @@ export default class LeaderboardService {
 
     return data;
   }
+
+  static async getAllMatchData(id: number): Promise<ITeamCompleteData> {
+    const homeData = await this.getHomeData(id);
+    const awayData = await this.getAwayData(id);
+
+    const totalPoints = homeData.totalPoints + awayData.totalPoints;
+    const totalGames = homeData.totalGames + awayData.totalGames;
+    const goalsFavor = homeData.goalsFavor + awayData.goalsFavor;
+    const goalsOwn = homeData.goalsOwn + awayData.goalsOwn;
+
+    return {
+      name: homeData.name,
+      totalPoints,
+      totalGames,
+      totalVictories: homeData.totalVictories + awayData.totalVictories,
+      totalDraws: homeData.totalDraws + awayData.totalDraws,
+      totalLosses: homeData.totalLosses + awayData.totalLosses,
+      goalsFavor,
+      goalsOwn,
+      goalsBalance: goalsFavor - goalsOwn,
+      efficiency: ((totalPoints / (totalGames * 3)) * 100).toFixed(2),
+    };
+  }
 }
