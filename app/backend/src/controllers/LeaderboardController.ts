@@ -2,11 +2,16 @@ import { Request, Response } from 'express';
 import LeaderboardService from '../services/LeaderboardService';
 
 export default class LeaderboardController {
-  static async getLeaderboardHome(req: Request, res: Response) {
+  static async getLeaderboard(req: Request, res: Response) {
+    const { path } = req;
     const teamsData = [];
 
     for (let index = 1; index <= 16; index += 1) {
-      teamsData.push(LeaderboardService.getAllHomeData(index));
+      if (path.includes('home')) {
+        teamsData.push(LeaderboardService.getHomeData(index));
+      } else if (path.includes('away')) {
+        teamsData.push(LeaderboardService.getAwayData(index));
+      }
     }
 
     const leaderboard = (await Promise.all(teamsData)).sort(

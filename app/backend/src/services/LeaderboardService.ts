@@ -40,8 +40,54 @@ export default class LeaderboardService {
     return { name, totalGames, totalVictories, totalDraws, totalLosses, goalsFavor, goalsOwn };
   }
 
-  static async getAllHomeData(id:number): Promise<ITeamCompleteData> {
+  static async getAwayMatchBasicData(id: number): Promise<ITeamBaseData> {
+    const matches = await MatchModel.findAll({
+      include: [{ association: 'teamAway', attributes: ['teamName'] }],
+      where: { inProgress: false, awayTeam: id } });
+
+    let totalVictories = 0; let totalLosses = 0; let totalDraws = 0;
+    let goalsFavor = 0; let goalsOwn = 0;
+    const name = matches[0].dataValues.teamAway.teamName; const totalGames = matches.length;
+
+    matches.forEach(({ dataValues }) => {
+      goalsFavor += dataValues.awayTeamGoals;
+      goalsOwn += dataValues.homeTeamGoals;
+
+      if (dataValues.awayTeamGoals > dataValues.homeTeamGoals) {
+        totalVictories += 1;
+      } else if (dataValues.awayTeamGoals < dataValues.homeTeamGoals) {
+        totalLosses += 1;
+      } else { totalDraws += 1; }
+    });
+
+    return { name, totalGames, totalVictories, totalDraws, totalLosses, goalsFavor, goalsOwn };
+  }
+
+  static async getHomeData(id: number): Promise<ITeamCompleteData> {
     const team = await this.getHomeMatchBasicData(id);
+
+    const totalPoints = (team.totalVictories * 3) + team.totalDraws;
+    const goalsBalance = team.goalsFavor - team.goalsOwn;
+    const efficiency = ((totalPoints / (team.totalGames * 3)) * 100).toFixed(2);
+
+    const data = {
+      name: team.name,
+      totalPoints,
+      totalGames: team.totalGames,
+      totalVictories: team.totalVictories,
+      totalDraws: team.totalDraws,
+      totalLosses: team.totalLosses,
+      goalsFavor: team.goalsFavor,
+      goalsOwn: team.goalsOwn,
+      goalsBalance,
+      efficiency,
+    };
+
+    return data;
+  }
+
+  static async getAwayData(id: number): Promise<ITeamCompleteData> {
+    const team = await this.getAwayMatchBasicData(id);
 
     const totalPoints = (team.totalVictories * 3) + team.totalDraws;
     const goalsBalance = team.goalsFavor - team.goalsOwn;
