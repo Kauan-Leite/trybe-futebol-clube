@@ -1,10 +1,31 @@
-# :construction: README em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto.
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+# :soccer: Trybe Futebol Clube
+
+## :microscope: Desenvolvimento
+
+Projeto desenvolvido na <a href="https://betrybe.com/" target="_blank">Trybe</a> durante o módulo de Back-End!
+
+Nesse projeto foi desenvolvido o back-end de uma aplicação de um campeonato para ser integrada ao front-end, onde as suas principais funcionalidades são:
+
+* Login
+* Classificação Geral
+* Classificação de Mandantes
+* Classificação de Visitantes
+* Criação de Partidas
+* Editar Partidas
+* Salvar Partidas
+* Finalizar Partidas
+
+## ⚙️ Tecnologias
+
+- Docker
+- Banco de Dados SQL
+- Node.js
+- Sequelize
+- Autenticação JWT
+- TypeScript
+- Principios SOLID
+- Express
+- Jest
+- Mocha
+- Chai
+
